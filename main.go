@@ -12,9 +12,13 @@ import (
 type response struct {
 }
 
-var userIds = [10]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+var userIds = [10]int{3, 4, 5}
 
 var wg sync.WaitGroup
+
+type priceRequest struct {
+	Price string `json:"price"`
+}
 
 func main() {
 	runHttpServer()
@@ -34,18 +38,59 @@ func runHttpServer() {
 }
 
 func registerRoutes(e *echo.Echo) {
-	e.GET("/report", Report)
+	e.POST("/report/short", ReportShort)
+	e.POST("/report/long", ReportLong)
+	e.POST("/report/cancel", ReportCancel)
 }
 
-func Report(c echo.Context) error {
-	price := c.FormValue("price")
+func ReportShort(c echo.Context) error {
+	pr := &priceRequest{}
+	err := c.Bind(pr)
 
-	wg.Add(len(userIds) * 3)
+	if err != nil {
+		return err
+	}
+
+	wg.Add(len(userIds))
 
 	for i := range userIds {
-		go callShort(price, i)
-		go callLong(price, i)
-		go callCancel(price, i)
+		go callShort(pr.Price, userIds[i])
+	}
+	wg.Wait()
+
+	return c.JSON(200, &response{})
+}
+
+func ReportLong(c echo.Context) error {
+	pr := &priceRequest{}
+	err := c.Bind(pr)
+
+	if err != nil {
+		return err
+	}
+
+	wg.Add(len(userIds))
+
+	for i := range userIds {
+		go callLong(pr.Price, userIds[i])
+	}
+	wg.Wait()
+
+	return c.JSON(200, &response{})
+}
+
+func ReportCancel(c echo.Context) error {
+	pr := &priceRequest{}
+	err := c.Bind(pr)
+
+	if err != nil {
+		return err
+	}
+
+	wg.Add(len(userIds))
+
+	for i := range userIds {
+		go callCancel(pr.Price, userIds[i])
 	}
 	wg.Wait()
 
@@ -57,7 +102,7 @@ func callShort(price string, i int) {
 		"price": price,
 	})
 	responseBody := bytes.NewBuffer(postBody)
-	_, err := http.Post("http://127.0.0.1:8000/testShort/"+fmt.Sprintf("%v", i), "application/json", responseBody)
+	_, err := http.Post("https://go-finance-robot.kadoopin.com/bot/pro/feature/stop-limit/short/"+fmt.Sprintf("%v", i), "application/json", responseBody)
 	//Handle Error
 	if err != nil {
 	}
@@ -77,7 +122,7 @@ func callLong(price string, i int) {
 		"price": price,
 	})
 	responseBody := bytes.NewBuffer(postBody)
-	_, err := http.Post("http://127.0.0.1:8000/testLong"+fmt.Sprintf("%v", i), "application/json", responseBody)
+	_, err := http.Post("https://go-finance-robot.kadoopin.com/bot/pro/feature/stop-limit/long/"+fmt.Sprintf("%v", i), "application/json", responseBody)
 	//Handle Error
 	if err != nil {
 	}
@@ -97,7 +142,7 @@ func callCancel(price string, i int) {
 		"price": price,
 	})
 	responseBody := bytes.NewBuffer(postBody)
-	_, err := http.Post("http://127.0.0.1:8000/testCancel"+fmt.Sprintf("%v", i), "application/json", responseBody)
+	_, err := http.Post("https://go-finance-robot.kadoopin.com/bot/pro/feature/stop-limit/cancel/"+fmt.Sprintf("%v", i), "application/json", responseBody)
 	//Handle Error
 	if err != nil {
 	}
