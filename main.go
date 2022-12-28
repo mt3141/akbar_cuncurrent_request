@@ -12,7 +12,7 @@ import (
 type response struct {
 }
 
-var userIds = [10]int{3, 4, 5}
+var userIds = [10]int{3}
 
 var wg sync.WaitGroup
 
@@ -105,6 +105,7 @@ func callShort(price string, i int) {
 	_, err := http.Post("https://go-finance-robot.kadoopin.com/bot/pro/feature/stop-limit/short/"+fmt.Sprintf("%v", i), "application/json", responseBody)
 	//Handle Error
 	if err != nil {
+		fmt.Println(err)
 	}
 	//
 	//defer func(Body io.ReadCloser) {
@@ -125,6 +126,7 @@ func callLong(price string, i int) {
 	_, err := http.Post("https://go-finance-robot.kadoopin.com/bot/pro/feature/stop-limit/long/"+fmt.Sprintf("%v", i), "application/json", responseBody)
 	//Handle Error
 	if err != nil {
+		fmt.Println(err)
 	}
 
 	//defer func(Body io.ReadCloser) {
@@ -145,6 +147,7 @@ func callCancel(price string, i int) {
 	_, err := http.Post("https://go-finance-robot.kadoopin.com/bot/pro/feature/stop-limit/cancel/"+fmt.Sprintf("%v", i), "application/json", responseBody)
 	//Handle Error
 	if err != nil {
+		fmt.Println(err)
 	}
 
 	//defer func(Body io.ReadCloser) {
