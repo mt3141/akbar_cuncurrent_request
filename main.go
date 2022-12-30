@@ -44,6 +44,7 @@ func registerRoutes(e *echo.Echo) {
 }
 
 func ReportShort(c echo.Context) error {
+fmt.Println("short report")
 	pr := &priceRequest{}
 	err := c.Bind(pr)
 
@@ -62,6 +63,7 @@ func ReportShort(c echo.Context) error {
 }
 
 func ReportLong(c echo.Context) error {
+fmt.Println("long report")
 	pr := &priceRequest{}
 	err := c.Bind(pr)
 
@@ -80,6 +82,7 @@ func ReportLong(c echo.Context) error {
 }
 
 func ReportCancel(c echo.Context) error {
+fmt.Println("cancel report")
 	pr := &priceRequest{}
 	err := c.Bind(pr)
 
