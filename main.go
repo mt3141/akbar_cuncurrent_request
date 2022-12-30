@@ -25,6 +25,8 @@ func main() {
 }
 
 func runHttpServer() {
+
+fmt.Println("run server")
 	e := echo.New()
 	registerRoutes(e)
 
