@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/labstack/echo/v4"
+	"log"
 	"net/http"
-	"sync"
 )
 
 type response struct {
@@ -16,8 +16,6 @@ var userIds = map[string]string{
 	"3": "https://go-finance-robot.kadoopin.com/bot",
 	"4": "https://go-finance-robot.kadoopin.com/bot",
 }
-
-var wg sync.WaitGroup
 
 type priceRequest struct {
 	Price string `json:"price"`
@@ -53,6 +51,7 @@ func ReportShort(c echo.Context) error {
 	err := c.Bind(pr)
 
 	if err != nil {
+		log.Println(err)
 		return err
 	}
 
@@ -69,6 +68,7 @@ func ReportLong(c echo.Context) error {
 	err := c.Bind(pr)
 
 	if err != nil {
+		log.Println(err)
 		return err
 	}
 
@@ -85,6 +85,7 @@ func ReportCancel(c echo.Context) error {
 	err := c.Bind(pr)
 
 	if err != nil {
+		log.Println(err)
 		return err
 	}
 
