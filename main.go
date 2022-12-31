@@ -56,12 +56,9 @@ func ReportShort(c echo.Context) error {
 		return err
 	}
 
-	wg.Add(len(userIds))
-
 	for id, url := range userIds {
 		go callShort(pr.Price, id, url)
 	}
-	wg.Wait()
 
 	return c.JSON(200, &response{})
 }
@@ -75,12 +72,9 @@ func ReportLong(c echo.Context) error {
 		return err
 	}
 
-	wg.Add(len(userIds))
-
 	for id, url := range userIds {
 		go callLong(pr.Price, id, url)
 	}
-	wg.Wait()
 
 	return c.JSON(200, &response{})
 }
@@ -94,12 +88,9 @@ func ReportCancel(c echo.Context) error {
 		return err
 	}
 
-	wg.Add(len(userIds))
-
 	for id, url := range userIds {
 		go callCancel(pr.Price, id, url)
 	}
-	wg.Wait()
 
 	return c.JSON(200, &response{})
 }
@@ -122,7 +113,6 @@ func callShort(price string, id string, baseUrl string) {
 	//	}
 	//}(resp.Body)
 
-	wg.Done()
 }
 
 func callLong(price string, id string, baseUrl string) {
@@ -142,8 +132,6 @@ func callLong(price string, id string, baseUrl string) {
 	//
 	//	}
 	//}(resp.Body)
-
-	wg.Done()
 }
 
 func callCancel(price string, id string, baseUrl string) {
