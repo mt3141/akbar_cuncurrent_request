@@ -14,6 +14,7 @@ type response struct {
 
 var userIds = map[string]string{
 	"3": "https://go-finance-robot.kadoopin.com/bot",
+	"4": "https://go-finance-robot.kadoopin.com/bot",
 }
 
 var wg sync.WaitGroup
@@ -163,5 +164,5 @@ func callCancel(price string, id string, baseUrl string) {
 	//	}
 	//}(resp.Body)
 
-	wg.Done()
+	//wg.Done()
 }
