@@ -12,7 +12,9 @@ import (
 type response struct {
 }
 
-var userIds = [10]int{3}
+var userIds = map[string]string{
+	"3": "https://go-finance-robot.kadoopin.com/bot",
+}
 
 var wg sync.WaitGroup
 
@@ -25,8 +27,7 @@ func main() {
 }
 
 func runHttpServer() {
-
-fmt.Println("run server")
+	fmt.Println("run server")
 	e := echo.New()
 	registerRoutes(e)
 
@@ -46,7 +47,7 @@ func registerRoutes(e *echo.Echo) {
 }
 
 func ReportShort(c echo.Context) error {
-fmt.Println("short report")
+	fmt.Println("short report")
 	pr := &priceRequest{}
 	err := c.Bind(pr)
 
@@ -56,8 +57,8 @@ fmt.Println("short report")
 
 	wg.Add(len(userIds))
 
-	for i := range userIds {
-		go callShort(pr.Price, userIds[i])
+	for id, url := range userIds {
+		go callShort(pr.Price, id, url)
 	}
 	wg.Wait()
 
@@ -65,7 +66,7 @@ fmt.Println("short report")
 }
 
 func ReportLong(c echo.Context) error {
-fmt.Println("long report")
+	fmt.Println("long report")
 	pr := &priceRequest{}
 	err := c.Bind(pr)
 
@@ -75,8 +76,8 @@ fmt.Println("long report")
 
 	wg.Add(len(userIds))
 
-	for i := range userIds {
-		go callLong(pr.Price, userIds[i])
+	for id, url := range userIds {
+		go callLong(pr.Price, id, url)
 	}
 	wg.Wait()
 
@@ -84,7 +85,7 @@ fmt.Println("long report")
 }
 
 func ReportCancel(c echo.Context) error {
-fmt.Println("cancel report")
+	fmt.Println("cancel report")
 	pr := &priceRequest{}
 	err := c.Bind(pr)
 
@@ -94,20 +95,20 @@ fmt.Println("cancel report")
 
 	wg.Add(len(userIds))
 
-	for i := range userIds {
-		go callCancel(pr.Price, userIds[i])
+	for id, url := range userIds {
+		go callCancel(pr.Price, id, url)
 	}
 	wg.Wait()
 
 	return c.JSON(200, &response{})
 }
 
-func callShort(price string, i int) {
+func callShort(price string, id string, baseUrl string) {
 	postBody, _ := json.Marshal(map[string]string{
 		"price": price,
 	})
 	responseBody := bytes.NewBuffer(postBody)
-	_, err := http.Post("https://go-finance-robot.kadoopin.com/bot/pro/feature/stop-limit/short/"+fmt.Sprintf("%v", i), "application/json", responseBody)
+	_, err := http.Post(fmt.Sprintf("%v", baseUrl)+"/pro/feature/stop-limit/short/"+fmt.Sprintf("%v", id), "application/json", responseBody)
 	//Handle Error
 	if err != nil {
 		fmt.Println(err)
@@ -123,12 +124,12 @@ func callShort(price string, i int) {
 	wg.Done()
 }
 
-func callLong(price string, i int) {
+func callLong(price string, id string, baseUrl string) {
 	postBody, _ := json.Marshal(map[string]string{
 		"price": price,
 	})
 	responseBody := bytes.NewBuffer(postBody)
-	_, err := http.Post("https://go-finance-robot.kadoopin.com/bot/pro/feature/stop-limit/long/"+fmt.Sprintf("%v", i), "application/json", responseBody)
+	_, err := http.Post(fmt.Sprintf("%v", baseUrl)+"/pro/feature/stop-limit/long/"+fmt.Sprintf("%v", id), "application/json", responseBody)
 	//Handle Error
 	if err != nil {
 		fmt.Println(err)
@@ -144,12 +145,12 @@ func callLong(price string, i int) {
 	wg.Done()
 }
 
-func callCancel(price string, i int) {
+func callCancel(price string, id string, baseUrl string) {
 	postBody, _ := json.Marshal(map[string]string{
 		"price": price,
 	})
 	responseBody := bytes.NewBuffer(postBody)
-	_, err := http.Post("https://go-finance-robot.kadoopin.com/bot/pro/feature/stop-limit/cancel/"+fmt.Sprintf("%v", i), "application/json", responseBody)
+	_, err := http.Post(fmt.Sprintf("%v", baseUrl)+"/pro/feature/stop-limit/cancel/"+fmt.Sprintf("%v", id), "application/json", responseBody)
 	//Handle Error
 	if err != nil {
 		fmt.Println(err)
