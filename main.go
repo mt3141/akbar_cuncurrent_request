@@ -21,7 +21,7 @@ var userIds = map[string]string{
 var wg sync.WaitGroup
 
 type priceRequest struct {
-	Price string `json:"price"`
+	Price json.RawMessage `json:"price"`
 }
 
 func main() {
@@ -61,7 +61,7 @@ func ReportShort(c echo.Context) error {
 
 	wg.Add(len(userIds))
 	for id, url := range userIds {
-		go callShort(pr.Price, id, url)
+		go callShort(string(pr.Price), id, url)
 	}
 
 	return c.JSON(200, &response{})
@@ -80,7 +80,7 @@ func ReportLong(c echo.Context) error {
 
 	wg.Add(len(userIds))
 	for id, url := range userIds {
-		go callLong(pr.Price, id, url)
+		go callLong(string(pr.Price), id, url)
 	}
 
 	return c.JSON(200, &response{})
@@ -99,7 +99,7 @@ func ReportCancel(c echo.Context) error {
 
 	wg.Add(len(userIds))
 	for id, url := range userIds {
-		go callCancel(pr.Price, id, url)
+		go callCancel(string(pr.Price), id, url)
 	}
 	wg.Wait()
 	return c.JSON(200, &response{})
