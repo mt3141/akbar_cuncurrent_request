@@ -57,6 +57,7 @@ func ReportShort(c echo.Context) error {
 		log.Println(err)
 		return err
 	}
+	fmt.Println(pr.Price)
 
 	wg.Add(len(userIds))
 	for id, url := range userIds {
@@ -75,6 +76,7 @@ func ReportLong(c echo.Context) error {
 		log.Println(err)
 		return err
 	}
+	fmt.Println(pr.Price)
 
 	wg.Add(len(userIds))
 	for id, url := range userIds {
@@ -93,6 +95,7 @@ func ReportCancel(c echo.Context) error {
 		log.Println(err)
 		return err
 	}
+	fmt.Println(pr.Price)
 
 	wg.Add(len(userIds))
 	for id, url := range userIds {
