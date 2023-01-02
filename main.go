@@ -4,21 +4,20 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/labstack/echo/v4"
 	"log"
 	"net/http"
-	"sync"
 )
 
 type response struct {
 }
 
 var userIds = map[string]string{
-	"3": "https://go-finance-robot.kadoopin.com/bot",
-	"4": "https://go-finance-robot.kadoopin.com/bot",
+	"3":  "https://go-finance-robot.kadoopin.com/bot",
+	"4":  "https://go-finance-robot.kadoopin.com/bot",
+	"5":  "https://go-finance-robot.kadoopin.com/bot",
+	"6":  "https://go-finance-robot.kadoopin.com/bot",
+	"14": "https://go-finance-robot.kadoopin.com/bot",
 }
-
-var wg sync.WaitGroup
 
 type priceRequest struct {
 	Price json.RawMessage `json:"price"`
@@ -59,7 +58,6 @@ func ReportShort(c echo.Context) error {
 	}
 	fmt.Println(pr.Price)
 
-	wg.Add(len(userIds))
 	for id, url := range userIds {
 		go callShort(string(pr.Price), id, url)
 	}
@@ -78,7 +76,6 @@ func ReportLong(c echo.Context) error {
 	}
 	fmt.Println(pr.Price)
 
-	wg.Add(len(userIds))
 	for id, url := range userIds {
 		go callLong(string(pr.Price), id, url)
 	}
@@ -97,11 +94,10 @@ func ReportCancel(c echo.Context) error {
 	}
 	fmt.Println(pr.Price)
 
-	wg.Add(len(userIds))
 	for id, url := range userIds {
 		go callCancel(string(pr.Price), id, url)
 	}
-	wg.Wait()
+
 	return c.JSON(200, &response{})
 }
 
@@ -122,7 +118,7 @@ func callShort(price string, id string, baseUrl string) {
 	//
 	//	}
 	//}(resp.Body)
-	wg.Done()
+
 }
 
 func callLong(price string, id string, baseUrl string) {
@@ -142,7 +138,7 @@ func callLong(price string, id string, baseUrl string) {
 	//
 	//	}
 	//}(resp.Body)
-	wg.Done()
+
 }
 
 func callCancel(price string, id string, baseUrl string) {
@@ -163,5 +159,4 @@ func callCancel(price string, id string, baseUrl string) {
 	//	}
 	//}(resp.Body)
 
-	wg.Done()
 }
