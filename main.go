@@ -18,6 +18,11 @@ var userIds = map[string]string{
 	"5":  "https://go-finance-robot.kadoopin.com/bot",
 	"6":  "https://go-finance-robot.kadoopin.com/bot",
 	"14": "https://go-finance-robot.kadoopin.com/bot",
+	"7":  "http://go-finance-robot-1.kadoopin.com/bot",
+	"8":  "http://go-finance-robot-1.kadoopin.com/bot",
+	"9":  "http://go-finance-robot-1.kadoopin.com/bot",
+	"10": "http://go-finance-robot-1.kadoopin.com/bot",
+	"11": "http://go-finance-robot-1.kadoopin.com/bot",
 }
 
 type priceRequest struct {
