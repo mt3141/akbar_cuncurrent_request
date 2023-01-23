@@ -27,6 +27,7 @@ var userIds = map[string]string{
 	"16": "http://go-finance-robot-2.kadoopin.com/bot",
 	"17": "http://go-finance-robot-2.kadoopin.com/bot",
 }
+var userIdsV2 = map[string]string{}
 
 type priceRequest struct {
 	Price json.RawMessage `json:"price"`
@@ -54,6 +55,9 @@ func registerRoutes(e *echo.Echo) {
 	e.POST("/report/short", ReportShort)
 	e.POST("/report/long", ReportLong)
 	e.POST("/report/cancel", ReportCancel)
+	e.POST("/v2/report/short", ReportShortV2)
+	e.POST("/v2/report/long", ReportLongV2)
+	e.POST("/v2/report/cancel", ReportCancelV2)
 }
 
 func ReportShort(c echo.Context) error {
@@ -104,6 +108,57 @@ func ReportCancel(c echo.Context) error {
 	fmt.Println(pr.Price)
 
 	for id, url := range userIds {
+		go callCancel(string(pr.Price), id, url)
+	}
+
+	return c.JSON(200, &response{})
+}
+
+func ReportShortV2(c echo.Context) error {
+	fmt.Println("short report v2")
+	pr := &priceRequest{}
+	err := c.Bind(pr)
+
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+
+	for id, url := range userIdsV2 {
+		go callShort(string(pr.Price), id, url)
+	}
+
+	return c.JSON(200, &response{})
+}
+
+func ReportLongV2(c echo.Context) error {
+	fmt.Println("long report v2")
+	pr := &priceRequest{}
+	err := c.Bind(pr)
+
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+
+	for id, url := range userIdsV2 {
+		go callLong(string(pr.Price), id, url)
+	}
+
+	return c.JSON(200, &response{})
+}
+
+func ReportCancelV2(c echo.Context) error {
+	fmt.Println("cancel report v2")
+	pr := &priceRequest{}
+	err := c.Bind(pr)
+
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+
+	for id, url := range userIdsV2 {
 		go callCancel(string(pr.Price), id, url)
 	}
 
