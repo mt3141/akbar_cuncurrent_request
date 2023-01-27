@@ -27,7 +27,9 @@ var userIds = map[string]string{
 	"16": "http://go-finance-robot-2.kadoopin.com/bot",
 	"17": "http://go-finance-robot-2.kadoopin.com/bot",
 }
-var userIdsV2 = map[string]string{}
+var userIdsV2 = map[string]string{
+	"18": "http://go-finance-robot-2.kadoopin.com/bot",
+}
 
 type priceRequest struct {
 	Price json.RawMessage `json:"price"`
