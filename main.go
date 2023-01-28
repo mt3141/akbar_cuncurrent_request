@@ -13,11 +13,11 @@ type response struct {
 }
 
 var userIds = map[string]string{
+	"2":  "https://go-finance-robot.kadoopin.com/bot",
 	"3":  "https://go-finance-robot.kadoopin.com/bot",
 	"4":  "https://go-finance-robot.kadoopin.com/bot",
 	"5":  "https://go-finance-robot.kadoopin.com/bot",
 	"6":  "https://go-finance-robot.kadoopin.com/bot",
-	"14": "https://go-finance-robot.kadoopin.com/bot",
 	"7":  "http://go-finance-robot-1.kadoopin.com/bot",
 	"8":  "http://go-finance-robot-1.kadoopin.com/bot",
 	"9":  "http://go-finance-robot-1.kadoopin.com/bot",
