@@ -23,7 +23,6 @@ var userIds = map[string]string{
 	"9":  "http://go-finance-robot-1.kadoopin.com/bot",
 	"10": "http://go-finance-robot-1.kadoopin.com/bot",
 	"11": "http://go-finance-robot-1.kadoopin.com/bot",
-	"15": "http://go-finance-robot-2.kadoopin.com/bot",
 	"16": "http://go-finance-robot-2.kadoopin.com/bot",
 	"17": "http://go-finance-robot-2.kadoopin.com/bot",
 	"21": "http://go-finance-robot-3.kadoopin.com/bot",
