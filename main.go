@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/labstack/echo/v4"
 	"log"
 	"net/http"
 )
@@ -12,27 +11,9 @@ import (
 type response struct {
 }
 
-var userIds = map[string]string{
-	"2":  "https://go-finance-robot.kadoopin.com/bot",
-	"3":  "https://go-finance-robot.kadoopin.com/bot",
-	"4":  "https://go-finance-robot.kadoopin.com/bot",
-	"5":  "https://go-finance-robot.kadoopin.com/bot",
-	"6":  "https://go-finance-robot.kadoopin.com/bot",
-	"7":  "http://go-finance-robot-1.kadoopin.com/bot",
-	"8":  "http://go-finance-robot-1.kadoopin.com/bot",
-	"9":  "http://go-finance-robot-1.kadoopin.com/bot",
-	"10": "http://go-finance-robot-1.kadoopin.com/bot",
-	"11": "http://go-finance-robot-1.kadoopin.com/bot",
-	"16": "http://go-finance-robot-2.kadoopin.com/bot",
-	"17": "http://go-finance-robot-2.kadoopin.com/bot",
-	"21": "http://go-finance-robot-3.kadoopin.com/bot",
-	"22": "http://go-finance-robot-3.kadoopin.com/bot",
-	"23": "http://go-finance-robot-3.kadoopin.com/bot",
-	"24": "http://go-finance-robot-3.kadoopin.com/bot",
-	"25": "http://go-finance-robot-3.kadoopin.com/bot",
-}
+var userIds = map[string]string{}
 var userIdsV2 = map[string]string{
-	"18": "http://go-finance-robot-2.kadoopin.com/bot",
+	"18": "https://go-finance-robot.kadoopin.com/bot",
 }
 
 type priceRequest struct {
