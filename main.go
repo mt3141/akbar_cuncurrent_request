@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"github.com/labstack/echo/v4"
 	"log"
 	"net/http"
 )
@@ -12,6 +13,7 @@ type response struct {
 }
 
 var userIds = map[string]string{}
+
 var userIdsV2 = map[string]string{
 	"18": "https://go-finance-robot.kadoopin.com/bot",
 }
