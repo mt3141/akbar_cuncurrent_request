@@ -156,6 +156,7 @@ func ReportCancelV2(c echo.Context) error {
 }
 
 func callShort(price string, id string, baseUrl string) {
+	fmt.Println("call short")
 	postBody, _ := json.Marshal(map[string]string{
 		"price": price,
 	})
