@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/labstack/echo/v4"
+	"io"
 	"log"
 	"net/http"
 )
@@ -159,18 +160,18 @@ func callShort(price string, id string, baseUrl string) {
 		"price": price,
 	})
 	responseBody := bytes.NewBuffer(postBody)
-	_, err := http.Post(fmt.Sprintf("%v", baseUrl)+"/pro/feature/parcham/stop-limit/short/"+fmt.Sprintf("%v", id), "application/json", responseBody)
+	response, err := http.Post(fmt.Sprintf("%v", baseUrl)+"/pro/feature/parcham/stop-limit/short/"+fmt.Sprintf("%v", id), "application/json", responseBody)
 	//Handle Error
 	if err != nil {
 		fmt.Println(err)
 	}
-	//
-	//defer func(Body io.ReadCloser) {
-	//	err := Body.Close()
-	//	if err != nil {
-	//
-	//	}
-	//}(resp.Body)
+
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+
+		}
+	}(response.Body)
 
 }
 
