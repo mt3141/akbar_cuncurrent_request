@@ -166,6 +166,8 @@ func callShort(price string, id string, baseUrl string) {
 	if err != nil {
 		fmt.Println(err)
 	}
+	
+	fmt.Println(response)
 
 	defer func(Body io.ReadCloser) {
 		err := Body.Close()
